@@ -3,6 +3,6 @@ from fastapi.responses import HTMLResponse
 
 app = FastAPI()
 
-@app.get("/")
+@app.get("/", response_class=HTMLResponse)
 async def root():
-    return {"message": "Hello my first web app!"}
+    return "<h1> Hello, World </h1>"
