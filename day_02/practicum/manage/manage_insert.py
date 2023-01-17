@@ -9,7 +9,7 @@ async def do_insert(db):
             'userid': 'cbchoi'},]
     await db['users'].insert_many(data)
 
-client = motor.motor_asyncio.AsyncIOMotorClient("mongodb://cbchoi:winter23@localhost:27017")
+client = motor.motor_asyncio.AsyncIOMotorClient("mongodb://winter:winter23@vr.cbchoi.info:27027")
 
 db = client["simulverse"]
 loop = client.get_io_loop()

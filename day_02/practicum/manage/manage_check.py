@@ -9,7 +9,7 @@ async def do_check(db, collections:list):
             print(type(document["_id"]))
             pprint.pprint(document)
 
-client = motor.motor_asyncio.AsyncIOMotorClient("mongodb://cbchoi:winter23@localhost:27017")
+client = motor.motor_asyncio.AsyncIOMotorClient("mongodb://root:dbdb@vr.cbchoi.info:27027")
 db = client["simulverse"]
 
 loop = client.get_io_loop()
