@@ -3,7 +3,7 @@ from fastapi.responses import HTMLResponse
 
 import motor.motor_asyncio
 
-client = motor.motor_asyncio.AsyncIOMotorClient("mongodb://root:dbdb@vr.cbchoi.info:27027")
+client = motor.motor_asyncio.AsyncIOMotorClient("mongodb://mongo:dbdb@localhost:27017")
 db = client["simulverse"]
 
 app = FastAPI()

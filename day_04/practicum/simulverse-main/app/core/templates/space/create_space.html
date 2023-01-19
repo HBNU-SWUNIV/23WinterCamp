@@ -1,0 +1,126 @@
+{% extends "base.html" %} 
+{% block title %}Simulverse Management System{%endblock %} 
+
+{% block head %} 
+{{ super() }} 
+
+<script src="{{ url_for('static', path='/scripts/dynamic_fields.js') }}" crossorigin="anonymous"></script>
+
+{% endblock %} 
+
+{% block top_nav %}
+    {% include 'include/topnav.html' %}
+{%  endblock %}
+
+{% block page_content %} 
+<!-- 로그인 화면-->
+<main role="main" class="container">
+  <div class="row">
+    <div class="text-danger font-weight-bold">
+      {% for error in errors %}
+      <li>{{error}}</li>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="row">
+    <form method="POST">
+      <section class="vh-100">
+        <div class="container">
+          <p></p>
+          <h4 class="mb-3">Create Space</h4>
+        </div>
+
+        <!-- input space name -->
+        <div class="container">
+          <label for="space_name">Space Name</label>
+          <input
+            class="form-control"
+            id="space_name"
+            placeholder="Enter space name"
+            name="space_name"
+          />
+        </div>
+
+        <!-- input space explain -->
+        <div class="container">
+          <p></p>
+          <label for="space_ex">Space explain</label>
+          <textarea class="form-control" id="space_ex" rows="3" name="space_explain"></textarea>
+        </div>
+
+        <!-- invite user  -->
+        <div class="container" id="itemList">
+          <p></p>
+          <label for="space_name">Invite User</label>
+          <button class="btn btn-primary btn-sm" id="addItemBtn" onclick="addField()"> add </button>
+          <div class="row" id="listItem" hidden="true">
+            <div class="col">
+              <!-- input user email  -->
+              <div style="width: 35%; float: left;">
+              <label> Email </label>
+              </div>
+              <div style="width: 65%; float: right;">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="User e-mail"
+                  name="username"
+                />
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="rendered-form">
+                <div
+                  class="formbuilder-select form-group field-select-1663202575407"
+                >
+                  <div style="width: 30%; float: left;">
+                    <label> Role </label>
+                    </div>
+                  <div style="width: 70%; float: right;">
+                    <!-- select user access  -->
+                    <select
+                      class="form-control"
+                      name="role"
+                      id="access"
+                    >
+                      <option value="Viewer" selected="true" id="select-editor">
+                        Viewer
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col" id="div_del">
+              <button
+                class="btn btn-danger btn-sm"
+                border:none
+                id="delbutton"
+              >
+                delete
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="container">
+          <p></p>
+          <button
+            class="btn btn-primary btn-lg btn-block"
+            border:none
+            type="submit"
+            value="input"
+          >
+            create
+          </button>
+        </div>
+      </section>
+    </form>
+  </div>
+</main>
+<!-- /.container -->
+
+{% endblock %} {% block scripts %} {{ super() }} {% endblock %}

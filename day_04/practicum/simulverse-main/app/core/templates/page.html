@@ -1,0 +1,80 @@
+
+{% extends "base.html" %}
+
+{% block title %}Simulverse Management System{% endblock %}
+{% block head %}
+{{ super() }}
+
+<script type="text/javascript">
+    function del_space(space_id) {
+        var url = '/space/delete/space/' + space_id
+
+        $.ajax({
+                type: "POST",
+                url: url,
+                data: space_id,
+                success: function () {
+                    location.reload();
+                },
+            });
+    }
+</script>
+{% endblock %}
+
+{% block top_nav %}
+    {% include 'include/topnav.html' %}
+{%  endblock %}
+
+{% block page_content %}
+
+{% with msg=msg %}
+    {% include "include/alerts.html" %}
+{% endwith %}
+
+<main role="main" class="container">
+    <div class="row">
+        <div class="text-danger font-weight-bold">
+          {% for error in errors %}
+          <li>{{error}}</li>
+          {% endfor %}
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="jumbotron">
+            {{data.text|safe}}
+        </div>
+        
+        {% if login is sameas true%}
+            {% for key, jumbo in data.spaces.items() %}
+            <div class="jumbotron">
+                <!-- Region name-->
+                <h3>{{jumbo[0]}}</h3>
+                
+                <p>{{jumbo[1]}}</p><a class="btn btn-sm btn-primary" href="/space/view/{{key}}" role="button">Explore »</a>
+                
+                <p></p>
+                {% if jumbo[2] == 'Editor' %}
+                <a class="btn btn-sm btn-primary" href="/space/edit/{{key}}"
+                    role="button">Update Space »</a>
+                <a class="btn btn-sm btn-danger" role="button" onclick="del_space('{{key}}')">Delete Space »</a>
+                {% else %}
+                <a class="btn btn-sm btn-secondary" role="button"> Update Space »</a>
+                <a class="btn btn-sm btn-secondary" role="button"> Delete Space »</a>
+                {% endif %}
+            </div>
+            <p></p>
+            <p></p>
+            {% endfor %}
+        {% endif %}
+    </div>
+</main><!-- /.container -->
+
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+
+
+{% endblock %}

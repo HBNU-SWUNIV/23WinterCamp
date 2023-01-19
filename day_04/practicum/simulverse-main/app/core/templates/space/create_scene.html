@@ -1,0 +1,169 @@
+{% extends "base.html" %} 
+{% block title %}Simulverse Management System{%endblock %} 
+
+{% block head %} 
+{{ super() }} 
+
+<script src="{{ url_for('static', path='/scripts/dynamic_fields.js') }}" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+    function readSingleFile(e) {
+            const name = e[0].name;
+            document.getElementById("file-label").textContent = name;
+    }
+    
+  </script>
+
+{% endblock %} 
+
+{% block top_nav %}
+    {% include 'include/topnav.html' %}
+{%  endblock %}
+
+{% block page_content %} 
+
+<main role="main" class="container">
+  <div class="row">
+    <div class="text-danger font-weight-bold">
+      {% for error in errors %}
+      <li>{{error}}</li>
+      {% endfor %}
+    </div>
+  </div>
+  
+    <form method="POST", enctype='multipart/form-data'>
+      <section class="vh-100">
+        <div class="container">
+          <p></p>
+          <h4 class="mb-3">Create Scene</h4>
+        </div>
+
+        <!-- input space name -->
+        <div class="container">
+          <label for="scene_name">Scene Name</label>
+          <input
+            class="form-control"
+            id="scene_name"
+            placeholder="Enter space name"
+            name="scene_name"
+          />
+        </div>
+
+        <div class="container">
+            <label for="file">Image File</label>
+            <input class="form-control" id="file" type="file" placeholder="Image" name="file" on="on" change="readSingleFile(this.files)"/>
+        </div>
+        
+        <div class="container" id="itemList">
+          <p></p>
+          <a class="btn btn-primary btn-sm" id="addItemBtn" onclick="addField()"> Add Link</a>
+          <div class="row" id="listItem" hidden="true">            
+            <div class ="col" style="float: left;">
+                Scene: <select
+                      name="scene"
+                      id="access"
+                    >
+                    <option value="." id="select-editor" selected>
+                      ---
+                    </option>
+                    {% for val, scene in data.scenes %}
+                      <option value="{{val}}." id="select-editor" name="link">
+                        {{scene}}
+                      </option>
+                    {% endfor %}
+                    </select>
+            </div>
+            <div class ="col">
+              <!-- select user access  -->
+              x:  <input
+                id="x"
+                placeholder="x coordinate"
+                name="x"
+                size="3px"
+                value="0"
+              />    
+            </div>
+            <div class ="col">
+              <!-- select user access  -->
+              y:  <input
+                id="y"
+                placeholder="y coordinate"
+                name="y"
+                size="3px"
+                value="1"
+              />    
+            </div>
+
+            <div class ="col">
+              <!-- select user access  -->
+              z:  <input
+                id="z"
+                placeholder="z coordinate"
+                name="z"
+                size="3px"
+                value="-6"
+              />    
+            </div>
+            <div class ="col">
+              <!-- select user access  -->
+              yaw:  <input
+                id="yaw"
+                placeholder="z coordinate"
+                name="yaw"
+                size="3px"
+                value="0"
+              />    
+            </div>
+  
+            <div class ="col">
+              <!-- select user access  -->
+              pitch:  <input
+                id="pitch"
+                placeholder="z coordinate"
+                name="pitch"
+                size="3px"
+                value="0"
+              />    
+            </div>
+  
+            <div class ="col">
+              <!-- select user access  -->
+              roll:  <input
+                id="roll"
+                placeholder="z coordinate"
+                name="roll"
+                size="3px"
+                value="0"
+              />    
+            </div>
+
+            <div class="col" id="div_del">
+              <button
+                class="btn btn-danger btn-sm"
+                border:none
+                id="delbutton"
+              >
+                Remove Link
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="container">
+          <p></p>
+          <button
+            class="btn btn-primary btn-lg btn-block"
+            border:none
+            type="submit"
+            value="input"
+          >
+            Create
+          </button>
+        </div>
+      </section>
+    </form>
+
+</main>
+<!-- /.container -->
+
+{% endblock %} {% block scripts %} {{ super() }} {% endblock %}

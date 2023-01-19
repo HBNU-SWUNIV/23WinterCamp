@@ -1,0 +1,26 @@
+<!-- Sidebar  -->
+<nav id="my_sidebar">
+    <div id="dismiss">
+        <i class="fas fa-arrow-left"></i>
+    </div>
+
+    <div class="my_sidebar-header">
+        <h3>Navigation</h3>
+    </div>
+
+    <ul class="list-unstyled components">
+        <li class="active">
+            <a href="/">Home</a>
+        </li>
+        <li class="dropdown">
+            <a href="#"class="dropdown-toggle" id="dropdownMenuButton"  data-bs-toggle="dropdown" aria-expanded="false">SceneList</a>
+            <ul class="dropdown-menu" id="dropdownMenuButton">
+                {% for link in data.links %}
+                    <li>
+                        <a href="/space/scene/{{link[1]}}" class="dropdown-item">{{link[0]}}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </li>
+    </ul>
+</nav>

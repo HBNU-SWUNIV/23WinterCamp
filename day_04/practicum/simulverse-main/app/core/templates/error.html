@@ -1,0 +1,36 @@
+
+{% extends "base.html" %}
+
+{% block title %}Simulverse Management System{% endblock %}
+{% block head %}
+{{ super() }}
+
+{% endblock %}
+
+{% block page_content %}
+{% include 'include/sidebar.html' %}
+
+{% with msg=msg %}
+    {% include "include/alerts.html" %}
+{% endwith %}
+
+{% if data.alert == "True" %}
+  <div class="alert alert-info" role="alert">
+    {{data.msg}}
+  </div>
+{% endif %}
+
+<main role="main" class="container">
+    <div class="row">
+        
+    </div>
+</main><!-- /.container -->
+
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+
+
+{% endblock %}

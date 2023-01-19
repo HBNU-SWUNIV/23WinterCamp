@@ -1,0 +1,268 @@
+{% extends "base.html" %} 
+{% block title %}Simulverse Management System{%endblock %} 
+
+{% block head %} 
+{{ super() }} 
+
+<script src="{{ url_for('static', path='/scripts/dynamic_fields.js') }}" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+    function readSingleFile(e) {
+            const name = e[0].name;
+            document.getElementById("file-label").textContent = name;
+    }
+    
+  </script>
+
+{% endblock %} 
+
+{% block top_nav %}
+    {% include 'include/topnav.html' %}
+{%  endblock %}
+
+{% block page_content %}
+
+<main role="main" class="container">
+  <div class="row">
+    <div class="text-danger font-weight-bold">
+      {% for error in errors %}
+      <li>{{error}}</li>
+      {% endfor %}
+    </div>
+  </div>
+  
+  <form method="POST" enctype='multipart/form-data'>
+        <div class="container">
+          <p></p>
+          <h4 class="mb-3"> Update Scene</h4>
+        </div>
+
+        <!-- input space name -->
+        <div class="container">
+          <label for="scene_name">Scene Name</label>
+          <input
+            class="form-control"
+            id="scene_name"
+            placeholder="Enter unique space name"
+            name="scene_name"
+            value="{{data.name}}"
+          />
+        </div>
+
+        <div class="container">
+            <label for="file">Image File</label>
+            <img class="form-control" id="file" src="/asset/image/{{data.image_id}}" />
+        </div>
+        
+        <div class="container" id="itemList">
+          <p></p>
+          <a class="btn btn-primary btn-sm" id="addItemBtn" onclick="addField()"> Add Link</a>
+          <div class="row" id="listItem" hidden="true">            
+            <div class ="col" style="float: left;">
+              Scene: <select
+                    name="scene"
+                    id="access">
+                  <option value="." id="select-editor" selected>
+                    ---
+                  </option>
+                  {% for val, scene in data.scenes %}
+                    <option value="{{val}}." id="select-editor" name="link">
+                      {{scene}}
+                    </option>
+                  {% endfor %}
+                  </select>
+          </div>
+          <div class ="col">
+            <!-- select user access  -->
+            x:  <input
+              id="x"
+              placeholder="x coordinate"
+              name="x"
+              size="3px"
+              value="0"
+            />    
+          </div>
+          <div class ="col">
+            <!-- select user access  -->
+            y:  <input
+              id="y"
+              placeholder="y coordinate"
+              name="y"
+              size="3px"
+              value="1"
+            />    
+          </div>
+
+          <div class ="col">
+            <!-- select user access  -->
+            z:  <input
+              id="z"
+              placeholder="z coordinate"
+              name="z"
+              size="3px"
+              value="-6"
+            />    
+          </div>
+
+          <div class ="col">
+            <!-- select user access  -->
+            yaw:  <input
+              id="yaw"
+              placeholder="z coordinate"
+              name="yaw"
+              size="3px"
+              value="0"
+            />    
+          </div>
+
+          <div class ="col">
+            <!-- select user access  -->
+            pitch:  <input
+              id="pitch"
+              placeholder="z coordinate"
+              name="pitch"
+              size="3px"
+              value="0"
+            />    
+          </div>
+
+          <div class ="col">
+            <!-- select user access  -->
+            roll:  <input
+              id="roll"
+              placeholder="z coordinate"
+              name="roll"
+              size="3px"
+              value="0"
+            />    
+          </div>
+
+
+            <div class="col" id="div_del">
+              <button
+                class="btn btn-danger btn-sm"
+                border:none
+                id="delbutton"
+              >
+                Remove Link
+              </button>
+            </div>
+          </div>
+
+          {% for link in data.links %}
+        <div class="row" id="listItem{{loop.index}}" >            
+          <div class ="col" style="float: left;">
+            Scene: <select
+                  name="scene"
+                  id="access"
+                >
+                
+                {% for val, scene in data.scenes %}
+                  {% if val == link.target_id|string() %}
+                    <option value="{{val}}.{{link._id}}" id="select-editor" name="link" selected>
+                      {{scene}} 
+                    </option>
+                  {% else %}
+                    <option value="{{val}}.{{link._id}}" id="select-editor" name="link">
+                      {{scene}} 
+                    </option>
+                  {% endif %}
+                {% endfor %}
+                </select>
+         </div>
+         <div class ="col">
+          <!-- select user access  -->
+          x:  <input
+            id="x"
+            placeholder="x coordinate"
+            name="x"
+            size="3px"
+            value="{{link.x}}"
+          />    
+         </div>
+         <div class ="col">
+          <!-- select user access  -->
+          y:  <input
+            id="y"
+            placeholder="y coordinate"
+            name="y"
+            size="3px"
+            value="{{link.y}}"
+          />    
+         </div>
+
+         <div class ="col">
+          <!-- select user access  -->
+          z:  <input
+            id="z"
+            placeholder="z coordinate"
+            name="z"
+            size="3px"
+            value="{{link.z}}"
+          />    
+         </div>
+
+         <div class ="col">
+          <!-- select user access  -->
+          yaw:  <input
+            id="yaw"
+            placeholder="z coordinate"
+            name="yaw"
+            size="3px"
+            value="0"
+          />    
+        </div>
+
+        <div class ="col">
+          <!-- select user access  -->
+          pitch:  <input
+            id="pitch"
+            placeholder="z coordinate"
+            name="pitch"
+            size="3px"
+            value="0"
+          />    
+        </div>
+
+        <div class ="col">
+          <!-- select user access  -->
+          roll:  <input
+            id="roll"
+            placeholder="z coordinate"
+            name="roll"
+            size="3px"
+            value="0"
+          />    
+        </div>
+
+          <div class="col" id="div_del">
+            <button
+              class="btn btn-danger btn-sm"
+              border:none
+              id="delbutton"
+              onclick="removeField('listItem{{loop.index}}')"
+            >
+              Remove Link
+            </button>
+          </div>
+        </div>
+        {% endfor%}
+        </div>
+
+        <div class="container">
+          <p></p>
+          <button
+            class="btn btn-primary btn-lg btn-block"
+            border:none
+            type="submit"
+            value="input"
+          >
+            Update
+          </button>
+        </div>
+    </form>
+
+</main>
+<!-- /.container -->
+
+{% endblock %} {% block scripts %} {{ super() }} {% endblock %}

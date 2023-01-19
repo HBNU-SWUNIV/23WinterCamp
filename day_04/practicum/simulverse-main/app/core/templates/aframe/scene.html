@@ -1,0 +1,69 @@
+{% extends "base.html" %} 
+{% block title %}Simulverse Management System{%endblock %} 
+
+{% block head %} 
+{{ super() }}
+<script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+<script src="https://unpkg.com/aframe-event-set-component@5/dist/aframe-event-set-component.min.js"></script>
+<script src="https://unpkg.com/aframe-layout-component@5.3.0/dist/aframe-layout-component.min.js"></script>
+<script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script>
+<script src="https://unpkg.com/aframe-proxy-event-component@2.1.0/dist/aframe-proxy-event-component.min.js"></script>
+<script src="{{ url_for('static', path='/scripts/link-controls.js') }}" crossorigin="anonymous"></script>
+<script src="{{ url_for('static', path='/scripts/contents-save.js') }}" crossorigin="anonymous"></script>
+
+{% endblock %} 
+
+{% block top_nav %}
+    {% include 'include/topnav-sidebar.html' %}
+{%  endblock %}
+
+{% block page_content %} {% include 'include/sidebar.html' %}
+<!-- 로그인 화면-->
+<main role="main" class="container">
+  <div class="row">
+    <div class="text-danger font-weight-bold">
+      {% for error in errors %}
+      <li>{{error}}</li>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="row" style="height: 75vh;">
+    <a-scene embedded>
+      <a-assets>
+        <!-- Images. -->
+        <img id="background" src="/asset/image/{{data.background}}" crossorigin="anonymous">
+      </a-assets>
+    
+      <!-- 360-degree image. -->
+      <a-sky id="image-360" radius="10" src="#background"></a-sky>
+    
+      <!-- Link template we will build. 
+      <a-entity id="links" layout="type: line; margin: 1.5" position="0 -1 -4">
+          <a-entity template="src: #link" data-src="#cubes" data-thumb="#cubes-thumb"></a-entity>
+          <a-entity template="src: #link" data-src="#city" data-thumb="#city-thumb"></a-entity>
+          <a-entity template="src: #link" data-src="#sechelt" data-thumb="#sechelt-thumb"></a-entity>
+        </a-entity>
+    
+      Camera + Cursor. -->
+      {% for link in data.links%}
+      <a-link class="clickable" title="{{link[0]}}" href="/space/scene/{{data.space_id}}/{{link[1]}}" origin="{{link[8]}}"
+              position="{{link[2]}} {{link[3]}} {{link[4]}}" rotation="{{link[5]}} {{link[6]}} {{link[7]}}"></a-link>
+      {% endfor%}
+
+      <a-box class="clickable" contents-save="space_id:{{data.space_id}}" height="0.5" width="0.5" position="0 -2 -2" color="red"></a-box>
+
+      <a-camera>
+        <a-cursor
+          id="cursor"
+          animation__click="property: scale; from: 0.1 0.1 0.1; to: 1 1 1; easing: easeInCubic; dur: 150; startEvents: click"
+          animation__clickreset="property: scale; to: 0.1 0.1 0.1; dur: 1; startEvents: animationcomplete__click"
+          animation__fusing="property: scale; from: 1 1 1; to: 0.1 0.1 0.1; easing: easeInCubic; dur: 150; startEvents: fusing"></a-cursor>
+      </a-camera>
+    </a-scene>
+        
+  </div>
+</main>
+<!-- /.container -->
+
+{% endblock %} {% block scripts %} {{ super() }} {% endblock %}
